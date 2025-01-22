@@ -1,8 +1,3 @@
-```
-npm install
-npm run dev
-```
+# 🔥 Hono TODO API
 
-```
-open http://localhost:3000
-```
+Simple [Hono](https://hono.dev/) app, creates API endpoints for a ToDo FE. 
