@@ -1,5 +1,10 @@
 import { expect, describe, it } from "vitest"
-import { createTodo, getTodos, updateTodoById, deleteTodoById } from "@/api/todos/queries.ts"
+import {
+	createTodo,
+	getTodos,
+	updateTodoById,
+	deleteTodoById
+} from "@/api/todos/queries.ts"
 
 describe("Todo Queries: getTodos", () => {
 	it("should be able to get all todos, and it should be empty by default", async () => {
@@ -35,17 +40,24 @@ describe("Todo Queries: createTodo", () => {
 describe("Todo Queries: updateTodoById", () => {
 	it("should update a todo by id", async () => {
 		const todo = await createTodo({ title: "Test", done: false })
-		const updatedTodo = await updateTodoById(Number(todo.id), { title: "Updated", done: true })
+		const updatedTodo = await updateTodoById(Number(todo.id), {
+			title: "Updated",
+			done: true
+		})
 		expect(updatedTodo).toBeDefined()
 		expect(updatedTodo.title).toBe("Updated")
 	})
 
 	it("should throw an error if updating id by invalid id", async () => {
-		await expect(updateTodoById(0, { title: "Updated", done: true })).rejects.toThrow()
+		await expect(
+			updateTodoById(0, { title: "Updated", done: true })
+		).rejects.toThrow()
 	})
 
 	it("should throw an error if updating id by non-number id", async () => {
-		await expect(updateTodoById("0", { title: "Updated", done: true })).rejects.toThrow()
+		await expect(
+			updateTodoById("0", { title: "Updated", done: true })
+		).rejects.toThrow()
 	})
 
 	it("should delete a todo by id", async () => {

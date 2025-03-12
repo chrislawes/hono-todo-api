@@ -24,4 +24,4 @@ export const TodoSchema = z
 	)
 	.strict()
 
-export const updateTodoSchema = TodoSchema.partial()
+export const updateTodoSchema = TodoSchema.partial().strict()

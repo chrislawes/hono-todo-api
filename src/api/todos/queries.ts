@@ -3,10 +3,12 @@ import { z } from "zod"
 import type { Todo, TodoResponse, TodoRequest } from "@/types/todo.ts"
 import settings from "@/settings.json" assert { type: "json" }
 
+// Get all todos
 export const getTodos = async (): Promise<TodoResponse> => {
 	return { todos }
 }
 
+// Create a new todo
 export const createTodo = async (todo: TodoRequest): Promise<Todo> => {
 	const uniqueId = new Date().getTime()
 
@@ -25,7 +27,11 @@ export const createTodo = async (todo: TodoRequest): Promise<Todo> => {
 	return newTodo
 }
 
-export const updateTodoById = async (id: number = 0, todo: TodoRequest): Promise<Todo> => {
+// Update a todo by id
+export const updateTodoById = async (
+	id: number = 0,
+	todo: TodoRequest
+): Promise<Todo> => {
 	const safeId = z.number().parse(id)
 
 	if (!safeId) {
@@ -43,6 +49,7 @@ export const updateTodoById = async (id: number = 0, todo: TodoRequest): Promise
 	return todos[index]
 }
 
+// Delete a todo by id
 export const deleteTodoById = async (id: number = 0): Promise<number> => {
 	const safeId = z.number().parse(id)
 

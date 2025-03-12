@@ -1,7 +1,12 @@
 import { Hono, type Context } from "hono"
 import { zValidator } from "@hono/zod-validator"
 import { TodoSchema, updateTodoSchema } from "@/schemas/todo.ts"
-import { getTodos, createTodo, updateTodoById, deleteTodoById } from "@/api/todos/queries.ts"
+import {
+	getTodos,
+	createTodo,
+	updateTodoById,
+	deleteTodoById
+} from "@/api/todos/queries.ts"
 import type { Todo, TodoResponse } from "@/types/todo.ts"
 
 export const todos = new Hono()
