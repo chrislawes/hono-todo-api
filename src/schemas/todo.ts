@@ -25,5 +25,3 @@ export const TodoSchema = z.object(
 )
 
 export const updateTodoSchema = TodoSchema.partial()
-
-// export type Todo = z.infer<typeof TodoSchema>

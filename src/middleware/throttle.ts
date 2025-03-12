@@ -1,9 +1,9 @@
 import { createMiddleware } from "hono/factory"
-import { type Next } from "hono"
+import { type Next, type MiddlewareHandler } from "hono"
 
-export const throttleMiddleware = (time: number = 0) => {
-	return createMiddleware(async (_, next: Next) => {
+export const throttleMiddleware = (time: number = 0): MiddlewareHandler => {
+	return createMiddleware(async (_, next: Next): Promise<void> => {
 		await new Promise((r) => setTimeout(r, time))
-		await next()
+		return await next()
 	})
 }

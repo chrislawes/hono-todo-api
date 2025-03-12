@@ -1,41 +1,40 @@
-import { Hono } from "hono"
+import { Hono, type Context } from "hono"
 import { zValidator } from "@hono/zod-validator"
 import { TodoSchema, updateTodoSchema } from "@/schemas/todo.ts"
-import {
-	getTodos,
-	// getTodoById,
-	createTodo,
-	updateTodoById
-	// deleteTodoById
-} from "@/api/todos/queries.ts"
+import { getTodos, createTodo, updateTodoById, deleteTodoById } from "@/api/todos/queries.ts"
 import type { Todo, TodoResponse } from "@/types/todo.ts"
 
 export const todos = new Hono()
 
 // GET /todos
-todos.get("/", async (c) => {
+todos.get("/", async (c: Context) => {
 	const todos: TodoResponse = await getTodos()
 	return c.json(todos, 200)
 })
 
 // POST /todos
 // Body: { title: string, done: boolean }
-todos.post("/", zValidator("json", TodoSchema), async (c) => {
+todos.post("/", zValidator("json", TodoSchema), async (c: Context) => {
 	const todo = await c.req.json<Todo>()
-	const newTodo: Todo = await createTodo(todo)
 
-	return c.json(
-		{
-			message: "Todo created!",
-			todo: newTodo
-		},
-		201
-	)
+	try {
+		const newTodo: Todo = await createTodo(todo)
+
+		return c.json(
+			{
+				message: "Todo created!",
+				todo: newTodo
+			},
+			201
+		)
+	} catch (error) {
+		return c.json({ error: "Todo list limit reached" }, 400)
+	}
 })
 
 // PUT /todos/:id
 // Body: { title: string, done: boolean }
-todos.put("/:id", zValidator("json", updateTodoSchema), async (c) => {
+todos.put("/:id", zValidator("json", updateTodoSchema), async (c: Context) => {
 	const id = parseInt(c.req.param("id"))
 
 	try {
@@ -56,14 +55,22 @@ todos.put("/:id", zValidator("json", updateTodoSchema), async (c) => {
 })
 
 // DELETE /todos/:id
-// TODO
-todos.delete("/:id", (c) => {
-	// const id = parseInt(c.req.param("id"))
-	// if (isNaN(id)) {
-	// 	return c.json({ error: "Invalid ID" }, 400)
-	// }
-	// todos = todos.filter((t) => t.id !== id)
-	return c.json({ message: "Todo deleted!" }, 200)
+todos.delete("/:id", async (c: Context) => {
+	const id = parseInt(c.req.param("id"))
+
+	try {
+		await deleteTodoById(id)
+
+		return c.json(
+			{
+				message: "Todo deleted!",
+				id
+			},
+			200
+		)
+	} catch (error) {
+		return c.json({ error: "Todo not found" }, 404)
+	}
 })
 
 export default todos
