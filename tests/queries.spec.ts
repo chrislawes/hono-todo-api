@@ -1,5 +1,5 @@
-import { createTodo, getTodos, updateTodoById, deleteTodoById } from "@/api/todos/queries.ts"
 import { expect, describe, it } from "vitest"
+import { createTodo, getTodos, updateTodoById, deleteTodoById } from "@/api/todos/queries.ts"
 
 describe("Todo Queries: getTodos", () => {
 	it("should be able to get all todos, and it should be empty by default", async () => {
