@@ -16,7 +16,7 @@ GET / api / todos
 POST / api / todos
 ```
 
-```json
+```
 {
     "title": string
     "done"?: boolean
@@ -27,7 +27,7 @@ POST / api / todos
 PUT /api/todos/:id
 ```
 
-```json
+```
 {
     "title"?: string
     "done"?: boolean
