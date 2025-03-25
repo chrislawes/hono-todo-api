@@ -193,12 +193,15 @@ describe("Todo API: DELETE /api/todos", () => {
 		})
 		const createData = await create.json()
 
-		const deleteTodo = await app.request(`/api/todos/${createData.todo.id}`, {
-			method: "DELETE",
-			headers: {
-				"Content-Type": "application/json"
+		const deleteTodo = await app.request(
+			`/api/todos/${createData.todo.id}`,
+			{
+				method: "DELETE",
+				headers: {
+					"Content-Type": "application/json"
+				}
 			}
-		})
+		)
 		const deleteData = await deleteTodo.json()
 
 		expect(deleteData).toBeDefined()

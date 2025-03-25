@@ -1,7 +1,9 @@
 export interface Todo {
-	id?: number
+	id?: string
 	title: string
 	done: boolean
+	createdAt: Date
+	updatedAt: Date
 }
 
 export interface TodoResponse {

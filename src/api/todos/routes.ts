@@ -40,7 +40,7 @@ todos.post("/", zValidator("json", TodoSchema), async (c: Context) => {
 // PUT /todos/:id
 // Body: { title: string, done: boolean }
 todos.put("/:id", zValidator("json", updateTodoSchema), async (c: Context) => {
-	const id = parseInt(c.req.param("id"))
+	const id = c.req.param("id")
 
 	try {
 		const todoEdit = await c.req.json<Todo>()
@@ -61,7 +61,7 @@ todos.put("/:id", zValidator("json", updateTodoSchema), async (c: Context) => {
 
 // DELETE /todos/:id
 todos.delete("/:id", async (c: Context) => {
-	const id = parseInt(c.req.param("id"))
+	const id = c.req.param("id")
 
 	try {
 		await deleteTodoById(id)
