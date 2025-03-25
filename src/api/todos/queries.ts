@@ -1,6 +1,7 @@
 import { todos } from "@/db.ts"
 import { z } from "zod"
-import { v4 as uuidv4, validate } from "uuid"
+import { validate } from "uuid"
+import { newTodoTemplate } from "@/utils/newTodoTemplate.ts"
 import type { Todo, TodoResponse, TodoRequest } from "@/types/todo.ts"
 import settings from "@/settings.json" assert { type: "json" }
 
@@ -11,23 +12,11 @@ export const getTodos = async (): Promise<TodoResponse> => {
 
 // Create a new todo
 export const createTodo = async (todo: TodoRequest): Promise<Todo> => {
-	const uniqueId = uuidv4()
-
-	if (!validate(uniqueId)) {
-		throw new Error("Invalid UUID")
-	}
-
 	if (!todo.title) {
 		throw new Error("Title is required")
 	}
 
-	const newTodo = {
-		...todo,
-		done: todo.done || false,
-		id: uniqueId,
-		createdAt: new Date(),
-		updatedAt: new Date()
-	}
+	const newTodo = newTodoTemplate(todo)
 
 	if (todos.length >= settings.todoListLimit) {
 		throw new Error("Todo list limit reached")
